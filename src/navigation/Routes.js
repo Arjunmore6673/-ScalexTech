@@ -11,7 +11,7 @@ export default function AppRoutes() {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen name="HomeScreen" component={HomeScreen} options={{title: 'E-BOOK'}}/>
-                <Stack.Screen name="ShowBook" component={ShowBook}/>
+                <Stack.Screen name="ShowBook" component={ShowBook} options={{title: 'Book Details'}}/>
             </Stack.Navigator>
         </NavigationContainer>
     );

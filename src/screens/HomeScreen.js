@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, TouchableHighlight, View,} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addData, deleteSingle} from "../action/actions";
+import AlertCommon from "../components/AlertCommon";
 
 
 export default function Home(props) {
@@ -47,7 +48,7 @@ export default function Home(props) {
             const data = res.books;
             dispatch(addData(data));
         } catch (error) {
-            console.error("something went wrong " + error);
+            AlertCommon("something went wrong",error)
         }
     };
 
