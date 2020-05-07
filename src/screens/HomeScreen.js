@@ -69,10 +69,10 @@ export default function Home(props) {
                         style={styles.imageStyle}
                         source={{uri: book.image}}
                     />
-                    <View style={{flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignSelf: 'flex-end'}}>
-                        <Text style={{color: 'white', fontSize: 20, margin: 6}}>{book.title}</Text>
-                        <Text style={{color: 'white', margin: 6}}>{book.subtitle}</Text>
-                        <Text style={{color: 'white', margin: 6}}>{book.price}</Text>
+                    <View style={styles.bookDetails}>
+                        <Text style={styles.title}>{book.title}</Text>
+                        <Text style={styles.subTitle}>{book.subtitle}</Text>
+                        <Text style={styles.subTitle}>{book.price}</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -89,16 +89,14 @@ export default function Home(props) {
         );
     } else {
         return (
-            <View style={{flex: 1, backgroundColor: '#f1f1f1', padding: 10}}>
-                <View style={styles.form}>
-                    <TextInput
-                        value={searchString}
-                        style={styles.searchInput} placeholder="Book title"
-                        onChangeText={(value) => {
-                            setSearchString(value);
-                        }}>
-                    </TextInput>
-                </View>
+            <View style={styles.container}>
+                <TextInput
+                    value={searchString}
+                    style={styles.searchInput} placeholder="Book title"
+                    onChangeText={(value) => {
+                        setSearchString(value);
+                    }}>
+                </TextInput>
                 {
                     data.length > 0 ?
                         <FlatList
@@ -125,11 +123,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         elevation: 10
     },
+    bookDetails: {
+        flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', alignSelf: 'flex-end'
+    },
     title: {
-        fontSize: 16,
-        color: '#48BBEC',
-        fontWeight: 'bold',
-        paddingRight: 3
+        color: 'white', fontSize: 20, marginHorizontal: 6
+    },
+    container: {
+        flex: 1, backgroundColor: '#f1f1f1', padding: 10
     },
     imageStyle: {
         height: "100%",
@@ -139,14 +140,13 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     subTitle: {
-        marginTop: 3,
-        fontSize: 14
+        color: 'white', margin: 6
     },
     searchInput: {
-        paddingHorizontal: 10,
+        marginHorizontal: 10,
         paddingBottom: 2,
         height: 38,
-        paddingLeft: 10,
+        padding: 10,
         borderRadius: 6,
         borderWidth: 1,
         borderColor: 'black',

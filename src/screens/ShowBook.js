@@ -18,7 +18,7 @@ export const ShowBook = (data) => {
                 source={{uri: book.image}}
             />
         </View>
-        <View style={{marginTop: 10, padding:10,backgroundColor: '#f2f2f2'}}>
+        <View style={styles.details}>
             <Text style={styles.textStyle}>{book.title} </Text>
             <View style={styles.lineStyle}/>
             <Text style={styles.textStyle2}>{book.subtitle} </Text>
@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
     textStyle: {
         fontSize: 30,
         color: "purple"
+    },
+    details: {
+        marginTop: 10, padding: 10, backgroundColor: '#f2f2f2'
     },
     textStyle2: {
         fontSize: 20,
