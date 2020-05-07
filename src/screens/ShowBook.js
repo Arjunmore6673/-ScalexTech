@@ -1,9 +1,6 @@
 import React, {useEffect} from "react";
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 
-const dimensions = Dimensions.get('window');
-const imageHeight = Math.round(dimensions.width * 9 / 16);
-const imageWidth = dimensions.width;
 export const ShowBook = (data) => {
 
     const book = data.route.params.data;

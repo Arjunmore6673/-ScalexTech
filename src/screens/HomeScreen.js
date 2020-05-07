@@ -135,8 +135,6 @@ const styles = StyleSheet.create({
     imageStyle: {
         height: "100%",
         width: '100%',
-        padding: 0,
-        margin: 0,
         position: 'absolute'
     },
     subTitle: {
@@ -151,16 +149,5 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
     },
-    button: {
-        paddingTop: 7,
-        paddingBottom: 7,
-        backgroundColor: 'teal',
-        borderRadius: 2,
-        alignItems: 'center',
-        margin: 10
-    },
-    buttonText: {
-        color: '#ffffff',
-        fontSize: 17
-    }
+
 });
