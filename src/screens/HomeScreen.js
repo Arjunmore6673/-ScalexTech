@@ -23,7 +23,11 @@ export default function Home(props) {
 
 
     useEffect(() => {
-        searchString.length > 0 ? setIsSearching(true) : setIsSearching(false)
+        if (searchString.length > 0) {
+            setIsSearching(true)
+            onSearchButtonClick()
+        } else
+            setIsSearching(false)
     }, [searchString]);
 
     const onSearchButtonClick = () => {
