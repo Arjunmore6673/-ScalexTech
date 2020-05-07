@@ -7,6 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import BottomTabNavigator from './navigation/BottomTabNavigator';
 import {First} from "./screens/First";
 import {Second} from "./screens/Second";
+import AppRoutes from "./navigation/Routes";
 
 const Stack = createStackNavigator();
 
@@ -34,14 +35,7 @@ export default function App(props) {
     } else {
         return (
             <View style={styles.container}>
-                {Platform.OS === 'ios' && <StatusBar barStyle="default"/>}
-                <NavigationContainer>
-                    <Stack.Navigator>
-                        <Stack.Screen name="Root" component={BottomTabNavigator}/>
-                        <Stack.Screen name="First" component={First}/>
-                        <Stack.Screen name="Second" component={Second}/>
-                    </Stack.Navigator>
-                </NavigationContainer>
+                <AppRoutes/>
             </View>
         );
     }
