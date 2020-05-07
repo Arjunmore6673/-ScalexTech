@@ -23,11 +23,7 @@ export default function Home(props) {
 
 
     useEffect(() => {
-        if (searchString.length > 0) {
-            setIsSearching(true)
-        } else {
-            setIsSearching(false)
-        }
+        searchString.length > 0 ? setIsSearching(true) : setIsSearching(false)
     }, [searchString]);
 
     const onSearchButtonClick = () => {
@@ -48,7 +44,7 @@ export default function Home(props) {
             const data = res.books;
             dispatch(addData(data));
         } catch (error) {
-            AlertCommon("something went wrong",error)
+            AlertCommon("something went wrong", error)
         }
     };
 
