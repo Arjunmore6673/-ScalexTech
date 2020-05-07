@@ -1,13 +1,11 @@
 import * as React from 'react';
-import {Platform, StatusBar, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {SplashScreen} from 'expo';
-import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-import BottomTabNavigator from './navigation/BottomTabNavigator';
-import {First} from "./screens/First";
-import {Second} from "./screens/Second";
-import AppRoutes from "./navigation/Routes";
+import AppRoutes from "./src/navigation/Routes";
+import {Provider} from "react-redux";
+import store from "./src/store/store";
 
 const Stack = createStackNavigator();
 
@@ -34,9 +32,9 @@ export default function App(props) {
         return null;
     } else {
         return (
-            <View style={styles.container}>
+            <Provider store={store}>
                 <AppRoutes/>
-            </View>
+            </Provider>
         );
     }
 }

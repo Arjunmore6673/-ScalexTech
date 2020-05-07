@@ -10,7 +10,7 @@ export default function () {
 
 
     return <View>
-        <Text>dddd</Text>
+        <Text>...</Text>
     </View>
 }
 
