@@ -14,6 +14,7 @@ export const ShowBook = (data) => {
     return <View style={{flex: 1}}>
         <View style={styles.card}>
             <Image
+                resizeMode={'cover'}
                 style={styles.imageStyle}
                 source={{uri: book.image}}
             />
@@ -51,6 +52,6 @@ const styles = StyleSheet.create({
     },
     imageStyle: {
         height: 200,
-        width: imageWidth,
+        width: "100%",
     }
 });
