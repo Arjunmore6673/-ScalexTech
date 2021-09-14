@@ -1,0 +1,201 @@
+import React, {useEffect, useState} from "react";
+import ReactDataGrid from "react-data-grid";
+import createRowData from "./createRowData";
+import './App.css'
+import Checkbox from '@material-ui/core/Checkbox';
+
+const defaultColumnProperties = {
+    resizable: true,
+    filterable: true,
+    width: 120,
+    draggable: true,
+    sortable: true,
+};
+
+
+const ROW_COUNT = 50;
+
+const sortRows = (initialRows, sortColumn, sortDirection) => {
+    const comparer = (a, b) => {
+        if (sortDirection === "ASC") {
+            return a[sortColumn] > b[sortColumn] ? 1 : -1;
+        } else if (sortDirection === "DESC") {
+            return a[sortColumn] < b[sortColumn] ? 1 : -1;
+        }
+    };
+    return sortDirection === "NONE" ? initialRows : [...initialRows].sort(comparer);
+};
+
+
+export default function App() {
+    const columns = [
+        {
+            key: "id",
+            name: "ID",
+            sortDescendingFirst: true,
+        },
+        {
+            key: "star",
+            name: "Star",
+            formatter: ({row}) => <Checkbox
+                checked={row.value}
+                onChange={(r) => {
+                    handleChange(row, r)
+                }}
+                inputProps={{'aria-label': 'primary checkbox'}}
+            />
+
+        },
+        {
+            key: "firstName",
+            name: "First Name",
+        },
+        {
+            key: "lastName",
+            name: "Last Name",
+        },
+        {
+            key: "jobTitle",
+            name: "Job Title",
+        },
+        {
+            key: "jobArea",
+            name: "Job Area",
+        },
+        {
+            key: "jobType",
+            name: "Job Type"
+        },
+        {
+            key: "email",
+            name: "Email"
+        },
+        {
+            key: "street",
+            name: "Street"
+        },
+        {
+            key: "zipCode",
+            name: "ZipCode"
+        },
+        {
+            key: "date",
+            name: "Date"
+        },
+        {
+            key: "catchPhrase",
+            name: "Catch Phrase"
+        }
+    ].map(c => ({...c, ...defaultColumnProperties}));
+    const [state, setState] = useState({columns, rows: createRowData(30)})
+    const [filters, setFilters] = useState({});
+    const [rows, setRows] = useState(createRowData(30));
+    const [checkedRows, setCheckedRows] = useState([]);
+
+    const handleChange = (row, r) => {
+        if (checkedRows.includes(row.id)) {
+            console.log('include')
+            setCheckedRows(checkedRows.filter(x => x !== row.id))
+        } else {
+            let check = checkedRows;
+            checkedRows.push(row.id?.toString())
+            setCheckedRows(check)
+        }
+    }
+    useEffect(() => {
+        console.log(checkedRows)
+    }, [checkedRows])
+
+    const onHeaderDrop = (source, target) => {
+        let stateCopy = state;
+        console.log(stateCopy);
+        const columnSourceIndex = columns.findIndex(i => i.key === source);
+        const columnTargetIndex = columns.findIndex(i => i.key === target);
+
+        stateCopy.columns.splice(
+            columnTargetIndex,
+            0,
+            stateCopy.columns.splice(columnSourceIndex, 1)[0]
+        );
+
+        const emptyColumns = {
+            ...stateCopy, columns: []
+        }
+        setState(emptyColumns)
+        const reorderedColumns = {
+            ...state,
+            columns: stateCopy.columns
+        }
+        setState(reorderedColumns)
+    };
+
+    const handleFilterChange = filter => filters => {
+        const newFilters = {...filters};
+        if (filter.filterTerm) {
+            newFilters[filter.column.key] = filter;
+        } else {
+            delete newFilters[filter.column.key];
+        }
+        return newFilters;
+    };
+
+    function getValidFilterValues(rows, columnId) {
+        return rows.map(r => r[columnId])
+            .filter((item, i, a) => {
+                return i === a.indexOf(item);
+            });
+    }
+
+    const [selectedRows, setSelectedRows] = useState(new Set());
+
+
+    function rowKeyGetter(row) {
+        return row.id;
+    }
+
+    function isAtBottom(event) {
+        const target = event.target
+        return target.clientHeight + target.scrollTop === target.scrollHeight;
+    }
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    function loadMoreRows(newRowsCount, length) {
+        return new Promise((resolve) => {
+            const newRows = [];
+            for (let i = 0; i < newRowsCount; i++) {
+                newRows[i] = createRowData(i + length);
+            }
+            setTimeout(() => resolve(newRows), 1000);
+        });
+    }
+
+    async function handleScroll(event) {
+        if (!isAtBottom(event)) return;
+        setIsLoading(true);
+        const newRows = await loadMoreRows(50, state.rows.length);
+        setState({
+            ...state,
+            rows: [...rows, ...newRows]
+        })
+        setIsLoading(false);
+    }
+
+    return (
+        <div>
+            <ReactDataGrid
+                columns={state.columns}
+                rows={state.rows}
+                rowKeyGetter={rowKeyGetter}
+                onRowsChange={setRows}
+                rowHeight={30}
+                className="fill-grid"
+                selectedRows={selectedRows}
+                onScroll={handleScroll}
+                onSelectedRowsChange={setSelectedRows}
+                rowClass={(row) => (true ? {backgroundColor: "yellow"} : undefined)}
+            />
+            {isLoading && <div>Loading more rows...</div>}
+        </div>
+    );
+}
